@@ -1,0 +1,73 @@
+package com.example.androidlabs;
+
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class TestToolBar extends AppCompatActivity {
+    String varia = "This is the initial message";
+    Toolbar mToolbar;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_test_toolbar);
+
+         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        mToolbar.showOverflowMenu();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_one) {
+            Toast.makeText(TestToolBar.this, varia, Toast.LENGTH_LONG).show();
+            return true;
+        }
+        if (id == R.id.action_two) {
+
+            LayoutInflater inflater = LayoutInflater.from(TestToolBar.this);
+            View subView = inflater.inflate(R.layout.custom_dialog_box, null);
+           EditText subEditText = (EditText) subView.findViewById(R.id.EditT);
+            final ImageView subImageView = (ImageView) subView.findViewById(R.id.imageView1);
+            final TextView subText = (TextView) subView.findViewById(R.id.TextV);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setTitle("AlertDialog");
+            builder.setMessage("AlertDialog Message");
+            builder.setView(subView);
+            AlertDialog alertDialog = builder.create();
+            builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    varia = subEditText.getText().toString();
+                }
+            })
+                    .setNegativeButton("no", new DialogInterface.OnClickListener() {
+                        public void onClick(
